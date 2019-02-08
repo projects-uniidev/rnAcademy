@@ -1,50 +1,129 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
+import React, { Component } from 'react';
+import { Text, View, Image, ScrollView } from 'react-native';
+import { Card, Button, Icon } from 'react-native-elements';
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import Main from './components/buildings/Main';
+import Annex from './components/buildings/Annex';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+export default class App extends Component{
+  render(){
+    return(
+      <AppContainer/>
+    )
+  }
+}
 
-type Props = {};
-export default class App extends Component<Props> {
+class BuildingsScreen extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <ScrollView style={{ flex: 1 , backgroundColor: 'white'}}>
+        <Card
+            title='Main Building'
+            image={require('./assets/placeholder_TR.png')}>
+          <Text style={{marginBottom: 10}}>
+            Status from training rooms @ Main Building.
+          </Text>
+          <Button
+            //icon={<Icon name='code' color='#ffffff' />}
+            backgroundColor='#03A9F4'
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='More' 
+            onPress={()=>this.props.navigation.navigate('Main')}/>
+          </Card>
+
+          <Card
+            title='Annex'
+            image={require('./assets/placeholder_TR.png')}>
+          <Text style={{marginBottom: 10}}>
+          Status from training rooms @ Annex Building.
+          </Text>
+          <Button
+            //icon={<Icon name='bookmark' color='#ffffff' />}
+            backgroundColor='#03A9F4'
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='More'
+            onPress={()=>this.props.navigation.navigate('Annex')} />
+          </Card>
+
+
+
+          
+      </ScrollView>
+    );
+  }
+}
+
+class ReserveScreen extends Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,backgroundColor: 'white'}}>
+        <Text>Reserve!</Text>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+class RemoveScreen extends Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,backgroundColor: 'white'}}>
+        <Text>Remove Reservation!</Text>
+      </View>
+    );
+  }
+}
+
+const MainStackNavigator = createStackNavigator({
+  Buildings:{
+    screen: BuildingsScreen,
+    navigationOptions: ({ navigation })=> {
+      return {
+        headerTitle: 'Sykes Room Reservation'
+      }
+    }
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  
+  Main: {
+    screen: Main,
+    navigationOptions: ({ navigation })=> {
+      return {
+        headerTitle: 'Main Building'
+      }
+    }
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+  Annex: {
+    screen: Annex,
+    navigationOptions: ({ navigation })=> {
+      return {
+        headerTitle: 'Annex Building'
+      }
+    }
+  }
+})
+
+
+const TabNavigator = createBottomTabNavigator({
+  Rooms: MainStackNavigator,
+  Reserve: ReserveScreen,
+  Release: RemoveScreen,
+},{
+  navigationOptions:({ navigation }) => {
+    const { routeName } = navigation.state.routes[navigation.state.index]
+    return{
+      header: null,
+      headerTitle: routeName
+    }
+  }
+
 });
+
+const StackNavigator = createStackNavigator({
+  TabNavigator: TabNavigator
+
+});
+
+
+
+const AppContainer = createAppContainer(StackNavigator);
