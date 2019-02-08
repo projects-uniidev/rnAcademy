@@ -5,6 +5,7 @@ import { createBottomTabNavigator, createStackNavigator, createAppContainer } fr
 
 import Main from './components/buildings/Main';
 import Annex from './components/buildings/Annex';
+import BarraHonda from './components/buildings/Annex/BarraHonda';
 
 export default class App extends Component{
   render(){
@@ -100,7 +101,15 @@ const MainStackNavigator = createStackNavigator({
         headerTitle: 'Annex Building'
       }
     }
-  }
+  },
+  BarraHonda: {
+    screen: BarraHonda,
+    navigationOptions: ({ navigation })=> {
+      return {
+        headerTitle: 'Barra Honda'
+      }
+    }
+  },  
 })
 
 
