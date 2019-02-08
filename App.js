@@ -28,7 +28,7 @@ class BuildingsScreen extends Component {
           <Button
             //icon={<Icon name='code' color='#ffffff' />}
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            buttonStyle={{backgroundColor: 'black', borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
             title='More' 
             onPress={()=>this.props.navigation.navigate('Main')}/>
           </Card>
@@ -42,7 +42,7 @@ class BuildingsScreen extends Component {
           <Button
             //icon={<Icon name='bookmark' color='#ffffff' />}
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            buttonStyle={{backgroundColor: 'black', borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
             title='More'
             onPress={()=>this.props.navigation.navigate('Annex')} />
           </Card>
@@ -98,7 +98,7 @@ const MainStackNavigator = createStackNavigator({
     screen: Annex,
     navigationOptions: ({ navigation })=> {
       return {
-        headerTitle: 'Annex Building'
+        headerTitle: 'Annex Building',
       }
     }
   },
@@ -107,6 +107,7 @@ const MainStackNavigator = createStackNavigator({
     navigationOptions: ({ navigation })=> {
       return {
         headerTitle: 'Barra Honda'
+
       }
     }
   },  
@@ -114,9 +115,30 @@ const MainStackNavigator = createStackNavigator({
 
 
 const TabNavigator = createBottomTabNavigator({
-  Rooms: MainStackNavigator,
-  Reserve: ReserveScreen,
-  Release: RemoveScreen,
+  Rooms: {
+    screen: MainStackNavigator,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (
+        <Icon type='material-community' name='map-marker' />
+      )
+    } 
+  },
+  Reserve:{ 
+    screen : ReserveScreen,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (
+        <Icon type='material-community' name='calendar' />
+      )
+    } 
+  },
+  Release: {
+    screen: RemoveScreen,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (
+        <Icon type='material-community' name='calendar-remove' />
+      )
+    } 
+  } 
 },{
   navigationOptions:({ navigation }) => {
     const { routeName } = navigation.state.routes[navigation.state.index]
